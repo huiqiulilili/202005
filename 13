@@ -1,0 +1,43 @@
+package servlet;
+
+import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
+
+@WebServlet("/demo2")
+public class ServletDemo2 extends HttpServlet {
+    @Override
+    protected void service(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+       /* Enumeration<String> headerNames = req.getHeaderNames();
+        while (headerNames.hasMoreElements()) {
+            String s = headerNames.nextElement();
+            String header = req.getHeader(s);
+            System.out.println(s+"--->"+header);
+        }*/
+
+        /*String header = req.getHeader("user-agent");
+        if("Firefox".equals(header)) {
+            System.out.println("火狐浏览器");
+        }else if("Chrome".equals(header)) {
+            System.out.println("谷歌浏览器");
+        }*/
+
+        String referer = req.getHeader("referer");
+        System.out.println(referer);
+        //防盗链
+        if (referer != null) {
+            if(referer.contains("优酷")) {
+//                System.out.println("播放");
+                resp.setContentType("text/html;charset=utf-8");
+                resp.getWriter().write("播放");
+            }else {
+//                System.out.println("快来优酷吧");
+                resp.setContentType("text/html;charset=utf-8");
+                resp.getWriter().write("快来优酷吧");
+            }
+        }
+    }
+}
