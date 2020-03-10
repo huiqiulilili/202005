@@ -1,0 +1,41 @@
+
+import javax.servlet.ServletException;
+import javax.servlet.ServletOutputStream;
+import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.URLEncoder;
+
+@WebServlet("/demo7")
+public class ServletDemo7 extends HttpServlet {
+    @Override
+    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        String path = "F:\\我的学习\\java\\java代码\\maven304servlet\\servlet-03\\src\\main\\resources\\1.png";
+        System.out.println("下载文件的路径:"+path);
+        String fileName = path.substring(path.lastIndexOf("\\")+1);
+        resp.setHeader("Content-Disposition","attachment;filename="+ URLEncoder.encode(fileName,"UTF-8"));
+
+        FileInputStream is = new FileInputStream(path);
+
+        int len = 0;
+        byte[] bytes = new byte[1024];
+
+        ServletOutputStream os = resp.getOutputStream();
+
+        while ((len = is.read(bytes)) != -1) {
+            os.write(bytes,0,len);
+        }
+
+        is.close();
+        os.close();
+    }
+
+    @Override
+    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        doPost(req,resp);
+    }
+}
