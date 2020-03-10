@@ -1,0 +1,33 @@
+package io;
+
+import com.sun.org.apache.xpath.internal.operations.String;
+
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
+
+public class IoDemo {
+    public static void main(String[] args) throws IOException {
+       /* FileWriter fw= new FileWriter("1.txt");
+        fw.write("abc");
+        fw.flush();
+        fw.close();*/
+
+//        FileReader fr = new FileReader("1.txt");
+        /*int len = 0;
+        while ((len = fr.read()) != -1) {
+            System.out.println((char)len);
+        }
+        fr.close();*/
+        FileReader fr = new FileReader("demo.txt");
+        FileWriter fw = new FileWriter("1.txt");
+        int num = 0;
+        char[] chars = new char[1024];
+        while((num = fr.read(chars)) != -1) {
+            fw.write(chars,0,num);
+        }
+        fr.close();
+        fw.close();
+
+    }
+}
