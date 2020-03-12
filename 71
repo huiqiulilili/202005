@@ -1,0 +1,36 @@
+package com.test;
+
+import java.sql.*;
+
+public class TestJDBC {
+    public static void main(String[] args) throws Exception {
+        //配置信息
+        //解决中文乱码
+        String url="jdbc:mysql://localhost:3306/name1?useUnicode=true&characterEncoding=utf-8";
+        String username = "root";
+        String password = "";
+
+        //加载驱动
+        Class.forName("com.mysql.jdbc.Driver");
+        //连接数据库,代表数据库
+        Connection connection = DriverManager.getConnection(url, username, password);
+        //向数据库发送sql的对象
+        Statement statement = connection.createStatement();
+        //编写sql
+        String sql = "select * from users";
+
+        //执行sql
+        ResultSet resultSet = statement.executeQuery(sql);
+        while (resultSet.next()) {
+            System.out.println("id="+resultSet.getObject("id"));
+            System.out.println("username="+resultSet.getObject("username"));
+            System.out.println("userPASSWORD="+resultSet.getObject("userPASSWORD"));
+            System.out.println("email="+resultSet.getObject("email"));
+            System.out.println("birthday="+resultSet.getObject("birthday"));
+        }
+        //释放资源
+        resultSet.close();
+        statement.close();
+        connection.close();
+    }
+}
