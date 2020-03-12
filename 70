@@ -1,0 +1,35 @@
+package com.test;
+
+import java.sql.*;
+import java.util.Date;
+
+public class TestJDBC2 {
+    public static void main(String[] args) throws Exception {
+        //配置信息
+        //解决中文乱码
+        String url="jdbc:mysql://localhost:3306/name1?useUnicode=true&characterEncoding=utf-8";
+        String username = "root";
+        String password = "";
+
+        //加载驱动
+        Class.forName("com.mysql.jdbc.Driver");
+        //连接数据库,代表数据库
+        Connection connection = DriverManager.getConnection(url, username, password);
+        //向数据库发送sql的对象
+        //编写sql
+        String sql = "insert into  users(id, username, userPASSWORD, email, birthday) values (?,?,?,?,?);";
+        PreparedStatement ps = connection.prepareStatement(sql);
+        ps.setInt(1,4);
+        ps.setString(2,"赵六");
+        ps.setString(3,"123456");
+        ps.setString(4,"zl@qq.com");
+        //执行sql
+        int i = ps.executeUpdate();
+        if(i > 0) {
+            System.out.println("插入成功");
+        }
+        //释放资源
+        ps.close();
+        connection.close();
+    }
+}
