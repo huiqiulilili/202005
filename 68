@@ -1,0 +1,35 @@
+package com.filter.listen;
+
+import javax.servlet.ServletContext;
+import javax.servlet.http.HttpSessionEvent;
+import javax.servlet.http.HttpSessionListener;
+//统计网站人数：统计session
+public class ListenCount implements HttpSessionListener {
+    //创建session监听
+    @Override
+    public void sessionCreated(HttpSessionEvent httpSessionEvent) {
+        ServletContext context = httpSessionEvent.getSession().getServletContext();
+        Integer onlineCount = (Integer) context.getAttribute("OnlineCount");
+        if (onlineCount == null) {
+            onlineCount = 1;
+        }else {
+            int count = onlineCount;
+            onlineCount += new Integer(count+1);
+        }
+        context.setAttribute("OnlineCount",onlineCount);
+    }
+    //销毁session监听
+    @Override
+    public void sessionDestroyed(HttpSessionEvent httpSessionEvent) {
+        ServletContext context = httpSessionEvent.getSession().getServletContext();
+        int onlineCount = (int)context.getAttribute("OnlineCount");
+        if (onlineCount == 0) {
+            onlineCount = 0;
+        }else {
+            int count = onlineCount;
+            onlineCount -= 1;
+        }
+        context.setAttribute("OnlineCount",onlineCount);
+    }
+
+}
