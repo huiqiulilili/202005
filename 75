@@ -1,0 +1,20 @@
+from selenium import webdriver
+import time
+
+driver = webdriver.Firefox()
+driver.get("http://47.98.116.42:8080/java_image_server/index.html")
+# 图片上传功能
+driver.find_element_by_id("upload").send_keys("C:\\Users\\admin\Desktop\\untitled.png")
+driver.find_element_by_xpath("/html/body/nav/div/form/div[2]/input").click()
+time.sleep(10)
+
+
+
+# 删除图片
+delt = driver.find_element_by_xpath("/html/body/div[1]/figure/div/div[2]/button")
+delt.click()
+alert = driver.switch_to.alert
+alert.accept()
+time.sleep(10)
+
+driver.quit()
